@@ -22,13 +22,19 @@ X_test = sc.transform(X_test)
 
 
 # Fitting classifier to the Training set
-# Create your classifier here
+# Create your classifier here IMPORTANT
+
+'''
+This is the only part for Logistic Regression.
+The rest is about classifiers 
+Hence this is a classification template
 
 # Fitting Logistic Regression to the Training Set
 from sklearn.linear_model import LogisticRegression
 classifier = LogisticRegression(random_state = 0) 
 classifier.fit(X_train, y_train) 
-'''
+
+Notes:
 logistic regression classifier object fitting the object to the training set, 
 x_train and y_train, classifier will learn correlation between x_train and y_train
 then use what it learned to predict new observations
@@ -39,7 +45,7 @@ y_pred = classifier.predict(X_test)
 
 # Making the Confusion Matrix - Video 184
 from sklearn.metrics import confusion_matrix
-cm = confusion_matrix(y_test, y_pred)
+cm = confusion_matrix(y_test, y_pred) # evaluate accuracy of prediction
 
 # Visualising the Training set results
 from matplotlib.colors import ListedColormap
