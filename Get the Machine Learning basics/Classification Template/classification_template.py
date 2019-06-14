@@ -20,7 +20,10 @@ sc = StandardScaler()
 X_train = sc.fit_transform(X_train)
 X_test = sc.transform(X_test)
 
-'''From video'''
+
+# Fitting classifier to the Training set
+# Create your classifier here
+
 # Fitting Logistic Regression to the Training Set
 from sklearn.linear_model import LogisticRegression
 classifier = LogisticRegression(random_state = 0) 
@@ -31,15 +34,10 @@ x_train and y_train, classifier will learn correlation between x_train and y_tra
 then use what it learned to predict new observations
 '''
 
-
-
-# Fitting classifier to the Training set
-# Create your classifier here
-
-# Predicting the Test set results
+# Predicting the Test set results - Video 183
 y_pred = classifier.predict(X_test)
 
-# Making the Confusion Matrix
+# Making the Confusion Matrix - Video 184
 from sklearn.metrics import confusion_matrix
 cm = confusion_matrix(y_test, y_pred)
 
