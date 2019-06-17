@@ -80,15 +80,40 @@ Two ways of initialising a deep learning model:
 # Initialising the ANN
 classifier = Sequential() #defining it as a sequence of layers
 # no arguments because we define the layers step by step afterwards
-
-# Adding the input layer and the first hidden layer
+'''Tip: choose the number of nodes in the hidden layer as the average of the number
+of nodes in the input layer and the number of nodes in the output layer.
+When the dependent variable (y) has a binary outcome (1/0) there is only one node in the 
+output layer.'''
+# Adding the input layer AND the first hidden layer
 classifier.add(Dense(units = 6, kernel_initializer = 'uniform', activation = 'relu', input_dim = 11))
+'''
+    units / output_dim: the number of nodes in the hidden layer (inputLayeroOfNodes (11) + outputLayerNoOfNodes (1)) / 2 = 6, dimensionality of the output space
+    kernel_initializer: regulizer function applied 
+    activation: activation function in hidden layer (rectifier) and Sigmoid function for the output layer
+    input_dim: we have 11 variables, therefore 11 input nodes
+'''
 
 # Adding the second hidden layer
 classifier.add(Dense(units = 6, kernel_initializer = 'uniform', activation = 'relu'))
+'''
+    no need of input_dim becuase the NN already knows from last layer
+    units: still applies 
+    same uniform method: initialises the weights randomly and gives them a small number close to 0
+    activation parameter: it is recommended to be rectifier for hidden layers
+    FIRST 3 LAYERS DONE: input, first and second
+'''
 
 # Adding the output layer
 classifier.add(Dense(units = 1, kernel_initializer = 'uniform', activation = 'sigmoid'))
+'''
+    units (output_dim): output layer we only want one node because dependent variable is binary 
+        if there are 3 categories for the dependent variable, then input 3
+    kernel_initializer: keep uniform initialization method that is still used to initialise the weights
+        that come from the second hidden layer
+    activation: output layer requires a probability outcome a.k.a sigmoid function
+        if there are 3 or more categories, change activation function to softmax: sigmoid function 
+        applied to a dependent variable that has more than 2 categories
+'''
 
 # Compiling the ANN
 classifier.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'])
