@@ -12,6 +12,8 @@
 
 
 
+
+
 # Part 1 - Data Preprocessing
 
 # Importing the libraries
@@ -20,12 +22,10 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 
-
 # Importing the dataset
 dataset = pd.read_csv('Churn_Modelling.csv')
 X = dataset.iloc[:, 3:13].values # all rows, columns index 3 to 12 (13 is excluded)
 y = dataset.iloc[:, 13].values # all rows, column index 13
-
 
 
 # Encoding categorical data
@@ -44,11 +44,9 @@ X = onehotencoder.fit_transform(X).toarray()
 X = X[:, 1:] #remove first column to avoid dummy trap 
 
 
-
 # Splitting the dataset into the Training set and Test set
 from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 0) #train 800, test 200
-
 
 
 # Feature Scaling
@@ -161,3 +159,30 @@ cm = confusion_matrix(y_test, y_pred)
     accuracy of 0.841: (1538 + 144)/2000 (2000 observations in the test set)
     by changing variables maybe we can get a higher probability
 '''
+
+
+
+
+
+
+
+
+# Part 4 - Homework
+
+# Use model to predict an answer for a specific customer
+'''
+Geography: France
+Credit Score: 600
+Gender: Male
+Age: 40 years old
+Tenure: 3 years
+Balance: $60000
+Number of Products: 2
+Does this customer have a credit card ? Yes
+Is this customer an Active Member: Yes
+Estimated Salary: $50000
+'''
+new_prediction = classifier.predict(sc.transform(np.array([[0, 0, 600, 1, 40, 3, 60000, 2, 1, 1, 50000]])))
+# transform because we did feature scaling to the dataset
+# np.array to make it an array
+new_prediction = (new_prediction > 0.5)
