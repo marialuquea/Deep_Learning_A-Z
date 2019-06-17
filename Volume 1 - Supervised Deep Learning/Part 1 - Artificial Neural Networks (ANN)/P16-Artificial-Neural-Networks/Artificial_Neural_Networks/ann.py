@@ -68,11 +68,18 @@ X_test = sc.transform(X_test)
 
 # Importing the Keras libraries and packages
 import keras
-from keras.models import Sequential
-from keras.layers import Dense
+from keras.models import Sequential # required to initialise NN
+from keras.layers import Dense # required to build layers of ANN
+
+'''
+Two ways of initialising a deep learning model:
+    - defining the sequence of layers
+    - defining a graph
+'''
 
 # Initialising the ANN
-classifier = Sequential()
+classifier = Sequential() #defining it as a sequence of layers
+# no arguments because we define the layers step by step afterwards
 
 # Adding the input layer and the first hidden layer
 classifier.add(Dense(units = 6, kernel_initializer = 'uniform', activation = 'relu', input_dim = 11))
@@ -88,6 +95,13 @@ classifier.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = [
 
 # Fitting the ANN to the Training set
 classifier.fit(X_train, y_train, batch_size = 10, epochs = 100)
+
+
+
+
+
+
+
 
 # Part 3 - Making predictions and evaluating the model
 
