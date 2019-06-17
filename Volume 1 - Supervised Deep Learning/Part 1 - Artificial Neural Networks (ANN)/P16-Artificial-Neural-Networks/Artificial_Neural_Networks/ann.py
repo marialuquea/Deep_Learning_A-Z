@@ -157,3 +157,7 @@ y_pred = (y_pred > 0.5) # converting probabilities in the form True or False
 # Making the Confusion Matrix
 from sklearn.metrics import confusion_matrix
 cm = confusion_matrix(y_test, y_pred)
+'''
+    accuracy of 0.841: (1538 + 144)/2000 (2000 observations in the test set)
+    by changing variables maybe we can get a higher probability
+'''
