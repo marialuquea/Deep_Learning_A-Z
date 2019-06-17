@@ -117,10 +117,30 @@ classifier.add(Dense(units = 1, kernel_initializer = 'uniform', activation = 'si
 
 # Compiling the ANN
 classifier.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'])
+'''
+    compiling an ANN: applying stochastic gradient descent on the whole ANN 
+    optimizer: the algorithm you wanna use to find the optimal set of weights in the NN sicne
+        weights are only initialized, find weights that will make the NN the most powerful 
+        the stochastic gradient descent algorithm: 'adam'
+    loss: the loss function within the stochastic gradient descent algorithm (the adam algorithm)
+        loss function is optimized to find optimal weights 
+        the sum of the squared errors 
+        if outcome is binary: binary_crossentropy
+        if more outcomes: categorical_crossentropy 
+    metics: criterion used to evaluate module (accuracy) used to improve model's performance 
+        until it reaches top accuracy
+'''
 
 # Fitting the ANN to the Training set
 classifier.fit(X_train, y_train, batch_size = 10, epochs = 100)
-
+'''
+    fit ANN to the training set 
+    batch_size: update weights after 10 observations 
+    epochs: when the whole training set has been passed through the ANN 
+    no rule of thumb for neither of these, experiment with them to see how many are optimal
+    
+    this is where all of the processing happens
+'''
 
 
 
@@ -132,7 +152,7 @@ classifier.fit(X_train, y_train, batch_size = 10, epochs = 100)
 
 # Predicting the Test set results
 y_pred = classifier.predict(X_test)
-y_pred = (y_pred > 0.5)
+y_pred = (y_pred > 0.5) # converting probabilities in the form True or False
 
 # Making the Confusion Matrix
 from sklearn.metrics import confusion_matrix
