@@ -171,7 +171,7 @@ cm = confusion_matrix(y_test, y_pred)
 
 # Use model to predict an answer for a specific customer
 '''
-Geography: France
+ Geography: France
 Credit Score: 600
 Gender: Male
 Age: 40 years old

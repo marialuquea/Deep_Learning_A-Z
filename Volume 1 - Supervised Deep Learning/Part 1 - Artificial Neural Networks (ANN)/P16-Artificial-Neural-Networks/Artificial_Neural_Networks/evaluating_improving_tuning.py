@@ -94,13 +94,20 @@ new_prediction = (new_prediction > 0.5)
 from sklearn.metrics import confusion_matrix
 cm = confusion_matrix(y_test, y_pred)
 
+
+
+
+
+
+
 # Part 4 - Evaluating, Improving and Tuning the ANN
 
 # Evaluating the ANN
-from keras.wrappers.scikit_learn import KerasClassifier
+from keras.wrappers.scikit_learn import KerasClassifier 
 from sklearn.model_selection import cross_val_score
 from keras.models import Sequential
 from keras.layers import Dense
+
 def build_classifier():
     classifier = Sequential()
     classifier.add(Dense(units = 6, kernel_initializer = 'uniform', activation = 'relu', input_dim = 11))
@@ -108,10 +115,29 @@ def build_classifier():
     classifier.add(Dense(units = 1, kernel_initializer = 'uniform', activation = 'sigmoid'))
     classifier.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'])
     return classifier
+'''
+    the function builds the ANN classifier, just like in Part 2 above
+    except for the fit part to the training set 
+'''
 classifier = KerasClassifier(build_fn = build_classifier, batch_size = 10, epochs = 100)
-accuracies = cross_val_score(estimator = classifier, X = X_train, y = y_train, cv = 10, n_jobs = -1)
-mean = accuracies.mean()
-variance = accuracies.std()
+# the next line takes a while...
+accuracies = cross_val_score(estimator = classifier, X = X_train, y = y_train, cv = 10, n_jobs = 1)
+'''
+    estimator: the object to use to fit the data (classifier)
+    X = the data to fit (X_train)
+    y = to train a model, you need y's to understand correlations
+    cv: number of folds in k-fold cross validation, 10 is recommended
+    n_jobs: number of CPUs to use to do the computations, -1 means 'all CPUs'
+'''
+
+mean = accuracies.mean() # find the average of the accuracies
+variance = accuracies.std() # find the variance of the accuracies (if < 1% = rather low variance)
+
+
+
+
+
+
 
 # Improving the ANN
 # Dropout Regularization to reduce overfitting if needed
@@ -121,14 +147,15 @@ from keras.wrappers.scikit_learn import KerasClassifier
 from sklearn.model_selection import GridSearchCV
 from keras.models import Sequential
 from keras.layers import Dense
-def build_classifier(optimizer):
-    classifier = Sequential()
+def build_classifier(optimizer): 
+    classifier = Sequential() # this is a local classifier
     classifier.add(Dense(units = 6, kernel_initializer = 'uniform', activation = 'relu', input_dim = 11))
     classifier.add(Dense(units = 6, kernel_initializer = 'uniform', activation = 'relu'))
     classifier.add(Dense(units = 1, kernel_initializer = 'uniform', activation = 'sigmoid'))
     classifier.compile(optimizer = optimizer, loss = 'binary_crossentropy', metrics = ['accuracy'])
     return classifier
-classifier = KerasClassifier(build_fn = build_classifier)
+
+classifier = KerasClassifier(build_fn = build_classifier) # the global classifier 
 parameters = {'batch_size': [25, 32],
               'epochs': [100, 500],
               'optimizer': ['adam', 'rmsprop']}
