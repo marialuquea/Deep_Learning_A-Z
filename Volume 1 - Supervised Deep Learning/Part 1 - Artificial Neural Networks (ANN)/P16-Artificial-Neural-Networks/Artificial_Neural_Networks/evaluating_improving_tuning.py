@@ -48,7 +48,7 @@ X_test = sc.transform(X_test)
 
 
 # Part 2 - Now let's make the ANN! 
-'''WITH DROPOUT'''
+'''WITH DROPOUT''' # Lecture 34
 
 # Importing the Keras libraries and packages
 import keras
@@ -162,6 +162,7 @@ variance = accuracies.std() # find the variance of the accuracies (if < 1% = rat
 
 # Improving the ANN
 # Dropout Regularization to reduce overfitting if needed
+'''PARAMETER TUNING - THE GRID SEARCH TECHNIQUE''' #Lecture 35
 
 # Tuning the ANN
 from keras.wrappers.scikit_learn import KerasClassifier
