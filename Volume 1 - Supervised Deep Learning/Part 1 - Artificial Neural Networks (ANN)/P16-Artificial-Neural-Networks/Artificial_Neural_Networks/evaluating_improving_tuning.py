@@ -163,13 +163,14 @@ variance = accuracies.std() # find the variance of the accuracies (if < 1% = rat
 # Improving the ANN
 # Dropout Regularization to reduce overfitting if needed
 '''PARAMETER TUNING - THE GRID SEARCH TECHNIQUE''' #Lecture 35
+'''THIS TAKES SEVERAL HOURS LOLOLOLO'''
 
 # Tuning the ANN
 from keras.wrappers.scikit_learn import KerasClassifier
 from sklearn.model_selection import GridSearchCV
 from keras.models import Sequential
 from keras.layers import Dense
-def build_classifier(optimizer): 
+def build_classifier(optimizer):# optimizer is passed becuase it is tuned in the parameters
     classifier = Sequential() # this is a local classifier
     classifier.add(Dense(units = 6, kernel_initializer = 'uniform', activation = 'relu', input_dim = 11))
     classifier.add(Dense(units = 6, kernel_initializer = 'uniform', activation = 'relu'))
@@ -180,11 +181,14 @@ def build_classifier(optimizer):
 classifier = KerasClassifier(build_fn = build_classifier) # the global classifier 
 parameters = {'batch_size': [25, 32],
               'epochs': [100, 500],
-              'optimizer': ['adam', 'rmsprop']}
+              'optimizer': ['adam', 'rmsprop']} 
+#The parameters you want to study. When tuning the optimizer, you must pass it through the function.
+
 grid_search = GridSearchCV(estimator = classifier,
                            param_grid = parameters,
                            scoring = 'accuracy',
                            cv = 10)
+# fit the grid search to the data
 grid_search = grid_search.fit(X_train, y_train)
-best_parameters = grid_search.best_params_
-best_accuracy = grid_search.best_score_
+best_parameters = grid_search.best_params_ # find the attributes of the class
+best_accuracy = grid_search.best_score_ 
