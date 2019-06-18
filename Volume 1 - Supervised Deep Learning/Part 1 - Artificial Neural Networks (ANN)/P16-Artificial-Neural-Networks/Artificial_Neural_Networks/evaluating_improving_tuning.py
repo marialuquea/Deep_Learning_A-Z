@@ -41,24 +41,38 @@ sc = StandardScaler()
 X_train = sc.fit_transform(X_train)
 X_test = sc.transform(X_test)
 
-# Part 2 - Now let's make the ANN!
+
+
+
+
+
+
+# Part 2 - Now let's make the ANN! 
+'''WITH DROPOUT'''
 
 # Importing the Keras libraries and packages
 import keras
 from keras.models import Sequential
 from keras.layers import Dense
-from keras.layers import Dropout
+from keras.layers import Dropout # to prevent overfitting
 
 # Initialising the ANN
 classifier = Sequential()
 
 # Adding the input layer and the first hidden layer
 classifier.add(Dense(units = 6, kernel_initializer = 'uniform', activation = 'relu', input_dim = 11))
-# classifier.add(Dropout(p = 0.1))
+classifier.add(Dropout(p = 0.1)) 
+'''
+    Dropout is used to prevent overfitting. At each iteration of the training, some neurons
+    are randomly disabled to prevent them from being too dependent on each other when they 
+    learn the correlations so the ANN finds several independent correlations and prevents
+    overfitting.
+    p: the fractions os the neurons that you want to drop, 0.1 = 10%
+'''
 
 # Adding the second hidden layer
 classifier.add(Dense(units = 6, kernel_initializer = 'uniform', activation = 'relu'))
-# classifier.add(Dropout(p = 0.1))
+classifier.add(Dropout(p = 0.1))
 
 # Adding the output layer
 classifier.add(Dense(units = 1, kernel_initializer = 'uniform', activation = 'sigmoid'))
@@ -68,6 +82,13 @@ classifier.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = [
 
 # Fitting the ANN to the Training set
 classifier.fit(X_train, y_train, batch_size = 10, epochs = 100)
+
+
+
+
+
+
+
 
 # Part 3 - Making predictions and evaluating the model
 
