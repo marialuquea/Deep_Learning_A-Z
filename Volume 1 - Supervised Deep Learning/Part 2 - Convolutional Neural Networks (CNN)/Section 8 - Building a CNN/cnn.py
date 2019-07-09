@@ -12,11 +12,17 @@
 # Part 1 - Building the CNN
 
 # Importing the Keras libraries and packages
-from keras.models import Sequential
-from keras.layers import Conv2D
-from keras.layers import MaxPooling2D
-from keras.layers import Flatten
-from keras.layers import Dense
+'''
+    Keras is an amazing library for deep learning and computer vision, it contains
+    tricks and tools to import images in an efficient way.
+    We only need to have a good structure for the images and Keras will understand
+    how to differentiate the labels of the different variables. 
+'''
+from keras.models import Sequential #initialises nn bc there are 2 ways of initialising (sequence of layers or graph)
+from keras.layers import Conv2D # first step, convolution step where we add the convolutional layers, 2D for images, 3D for videos (time)
+from keras.layers import MaxPooling2D #step 2: pooling, add pooling layers
+from keras.layers import Flatten #step 3: flattening, convert pooled feature maps into a large feature vector that the becomes the input of the fully connected layers
+from keras.layers import Dense #add fully connected layers in a classic ANN
 
 # Initialising the CNN
 classifier = Sequential()
