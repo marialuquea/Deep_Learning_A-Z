@@ -25,9 +25,23 @@ from keras.layers import Flatten #step 3: flattening, convert pooled feature map
 from keras.layers import Dense #add fully connected layers in a classic ANN
 
 # Initialising the CNN
-classifier = Sequential()
+classifier = Sequential() 
 
 # Step 1 - Convolution
+'''
+    Input image, applying several feature detectors, slide it on top of the whole image, 
+    get a feature map where the highers number represents that the featre exists. 
+    Input image x feature detector = feature map
+    Many feautre detectors --> Many feature maps
+    
+    .add a convolutional layer
+    function to use: Conv2D
+        - 32: number of filter/number of feature maps, common practice to start with 32 in the first layer
+        - (3, 3): number of rows and columns of the feature detector table
+        - input_shape: the shape of the input image on which the feature detectors are applied through the convolution operation
+          (64, 64, 3) coloured images (3 - red, blue, green) of 64x64 pixels, the bigger the number the longer it takes to process
+        - rectivier activation function to get non-linearity, remove negatives
+'''
 classifier.add(Conv2D(32, (3, 3), input_shape = (64, 64, 3), activation = 'relu'))
 
 # Step 2 - Pooling
