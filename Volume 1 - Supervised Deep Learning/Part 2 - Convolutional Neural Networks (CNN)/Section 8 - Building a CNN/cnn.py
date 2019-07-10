@@ -62,6 +62,13 @@ classifier.add(Conv2D(32, (3, 3), input_shape = (64, 64, 3), activation = 'relu'
 classifier.add(MaxPooling2D(pool_size = (2, 2)))
 
 # Adding a second convolutional layer
+'''
+    to get better results, for deeper deep learning 
+    you can either and another convolutional later, hidden layer in the ANN or both
+    no need to use the input shape because we've already done it in the previous layer
+    you just need a number of feature detectors and an activation function
+    maybe you can increase feature detectors and double them each time (great results)
+'''
 classifier.add(Conv2D(32, (3, 3), activation = 'relu'))
 classifier.add(MaxPooling2D(pool_size = (2, 2)))
 
