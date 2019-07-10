@@ -44,22 +44,60 @@ classifier = Sequential()
 '''
 classifier.add(Conv2D(32, (3, 3), input_shape = (64, 64, 3), activation = 'relu'))
 
+
+
 # Step 2 - Pooling
+'''
+    Taking the max number of the feature map to get a reduced feature map
+    size of feature map is divided by 2 
+    apply max pooling on each feature map 
+    use to reduced the number of nodes for the fully connected layers, 
+    reduce complexity and time execution without losing the performance
+    bc by taking the max, we are keeping the information, keep track of the part of the image that
+    contain the feature
+    
+    .add a max pooling layer
+    pool_size: factors by which to downscale, recommended to use 2,2
+'''
 classifier.add(MaxPooling2D(pool_size = (2, 2)))
 
 # Adding a second convolutional layer
 classifier.add(Conv2D(32, (3, 3), activation = 'relu'))
 classifier.add(MaxPooling2D(pool_size = (2, 2)))
 
+
+
 # Step 3 - Flattening
+'''
+    Apply flattening step to get a huge single vector that contains the different cells
+    of all the feature maps, this vector will be the input layer of the future ANN that has 
+    the fully connected layers
+    
+'''
 classifier.add(Flatten())
 
+
+'''
+    We converted the input image into a 1D vector containing infor about the spatial
+    structure of the image.
+    1. Use this input vector as input layer of classic ANN.
+    2. Fully connected layer = hidden layer
+    3. Add an output layer of just 1 node because this is a binary outcome (dog/cat)
+    
+'''
 # Step 4 - Full connection
 classifier.add(Dense(units = 128, activation = 'relu'))
 classifier.add(Dense(units = 1, activation = 'sigmoid'))
 
+
+
 # Compiling the CNN
 classifier.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'])
+
+
+
+
+
 
 
 
