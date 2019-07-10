@@ -125,9 +125,18 @@ classifier.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = [
 
 
 # Part 2 - Fitting the CNN to the images
-
+# taken from keras documentation Image Prepocessing
 from keras.preprocessing.image import ImageDataGenerator
 
+'''
+    image augmentation part, where we apply several transformations like the rescale
+    rescale is always compulsory, corresponds to the feature scanning part of the data preprocessing
+    phase: rescale all pixel values between 0 and 1 bc pixels take values between 0 and 255 
+    other transformations like shear range: shearing, geometrical transformation that is also called
+    transvection
+    zoom range: random zoom
+    horizontal flip or vertical flip
+'''
 train_datagen = ImageDataGenerator(rescale = 1./255,
                                    shear_range = 0.2,
                                    zoom_range = 0.2,
@@ -135,18 +144,23 @@ train_datagen = ImageDataGenerator(rescale = 1./255,
 
 test_datagen = ImageDataGenerator(rescale = 1./255)
 
+'''
+    create the training/test set composed of the augmented images extracted from ImageDataGenerator
+'''
 training_set = train_datagen.flow_from_directory('dataset/training_set',
-                                                 target_size = (64, 64),
-                                                 batch_size = 32,
-                                                 class_mode = 'binary')
+                                                 target_size = (64, 64), #size of images expected in the CNN model
+                                                 batch_size = 32, # number of images going through the CNN after which the weights will be updated
+                                                 class_mode = 'binary') # if ouput is binary or more outputs
 
 test_set = test_datagen.flow_from_directory('dataset/test_set',
                                             target_size = (64, 64),
                                             batch_size = 32,
                                             class_mode = 'binary')
-
+'''
+    fit CNN model to the training set and test its performance on the test set
+'''
 classifier.fit_generator(training_set,
-                         steps_per_epoch = 8000,
+                         steps_per_epoch = 8000, # bc we have 8000 images in training dataset
                          epochs = 25,
                          validation_data = test_set,
-                         validation_steps = 2000)
+                         validation_steps = 2000) # bc we have 2000 images in test dataset
