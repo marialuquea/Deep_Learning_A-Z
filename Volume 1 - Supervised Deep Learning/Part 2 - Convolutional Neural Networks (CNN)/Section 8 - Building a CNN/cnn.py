@@ -77,21 +77,42 @@ classifier.add(MaxPooling2D(pool_size = (2, 2)))
 classifier.add(Flatten())
 
 
+
+# Step 4 - Full connection
 '''
     We converted the input image into a 1D vector containing infor about the spatial
     structure of the image.
     1. Use this input vector as input layer of classic ANN.
     2. Fully connected layer = hidden layer
     3. Add an output layer of just 1 node because this is a binary outcome (dog/cat)
+    Dense is the function used to add a fully connected layer
+    
+    Choose the number of units between number of inputs and number of outputs
+    The choice of number results from experimentation, 
+        - if too small, classifier will be a bad model
+        - if too big, highly computational intensive
+    Pick a power of 2 (not 100 but 128)
+    
+    Activation function: the nodes in the hidden layer that we're adding are like neurons
+    that we need to activate according to how much the can pass on the signal, according 
+    on how much they are relevant to pass on their contribution to the final vote.
+    
+    For the output layer uses the sigmoid function becuase we have a binary outcome. If it 
+    has more outcomes, use the Softmax activation function. 1 node that is the predicted 
+    probability of 1 class.
     
 '''
-# Step 4 - Full connection
 classifier.add(Dense(units = 128, activation = 'relu'))
-classifier.add(Dense(units = 1, activation = 'sigmoid'))
+classifier.add(Dense(units = 1, activation = 'sigmoid')) # output layer
 
 
 
 # Compiling the CNN
+'''
+    - optimizer: to choose the stochastic gradient descent algorithm, adam algorithm
+    - loss: to choose the loss function, log loss for classification problems 
+    - metrics: to choose the performance metric
+'''
 classifier.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'])
 
 
