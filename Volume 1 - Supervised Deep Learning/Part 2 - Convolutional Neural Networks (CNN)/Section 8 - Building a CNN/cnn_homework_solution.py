@@ -41,8 +41,8 @@ classifier.add(Dense(units = 1, activation = 'sigmoid'))
 # Compiling the CNN
 classifier.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'])
 
-# Part 2 - Fitting the CNN to the images
 
+# Part 2 - Fitting the CNN to the images
 from keras.preprocessing.image import ImageDataGenerator
 
 train_datagen = ImageDataGenerator(rescale = 1./255,
@@ -73,10 +73,11 @@ classifier.fit_generator(training_set,
 import numpy as np
 from keras.preprocessing import image
 test_image = image.load_img('dataset/single_prediction/cat_or_dog_1.jpg', target_size = (64, 64))
-test_image = image.img_to_array(test_image)
-test_image = np.expand_dims(test_image, axis = 0)
-result = classifier.predict(test_image)
-training_set.class_indices
+test_image = image.img_to_array(test_image) # creates 3rd dimension that will have the same format as the input shape of the input layer in the CNN
+test_image = np.expand_dims(test_image, axis = 0) # add new dimension to have 4Ds (the batch is another dimension) so input expects 4 dimensions
+# axis is to specify the position of the index of the dimension we're adding. Axis = 0 means that the new dimension that we're adding is gonna  have the first index, index 0
+result = classifier.predict(test_image) # 
+training_set.class_indices # to see what predictions can be 
 if result[0][0] == 1:
     prediction = 'dog'
 else:
