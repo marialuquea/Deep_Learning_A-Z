@@ -88,7 +88,10 @@ X_train = np.reshape(X_train, (X_train.shape[0], X_train.shape[1], 1))
 
 
 # Part 2 - Building the RNN
-
+'''
+    Building the whole architecture of this NN 
+    A stacked LSTM with some dropout regularization to prevent overfitting 
+'''
 # Importing the Keras libraries and packages
 from keras.models import Sequential
 from keras.layers import Dense
@@ -96,11 +99,32 @@ from keras.layers import LSTM
 from keras.layers import Dropout
 
 # Initialising the RNN
-regressor = Sequential()
+regressor = Sequential() 
+'''
+    initialising the regressor
+    a sequence of layers
+    regressor because we are predicting a continuous value
+'''
 
 # Adding the first LSTM layer and some Dropout regularisation
 regressor.add(LSTM(units = 50, return_sequences = True, input_shape = (X_train.shape[1], 1)))
+'''
+    add LSTM layer 
+    adding an object of the LSTM class
+    - units: memory units to have in this LSTM layer (neurons) we want the model to have high dimensionality
+      it is gonna have high dimensionality thanks to the multiple LSTM layers that we're gonna add, but we
+      can increase the dimensionality by including a large number of neurons in each layer
+    - return_sequences: true when there are more layers after this one, false when it is the last layer
+    - input_shape: shape of x_train (3D - observations, timesteps, indicators) but we don't have
+      to include the 3 dimensions, only the 2 last ones because the 1st one will be automatically taken
+      into account 
+'''
 regressor.add(Dropout(0.2))
+'''
+    specifiy dropout rate, the rate of neurons to drop (ignore) to do the regularization
+    to prevent overfitting
+    0.2 = 20%
+'''
 
 # Adding a second LSTM layer and some Dropout regularisation
 regressor.add(LSTM(units = 50, return_sequences = True))
