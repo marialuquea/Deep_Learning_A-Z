@@ -44,6 +44,28 @@ for i in range(60, 1258):
     X_train.append(training_set_scaled[i-60:i, 0])
     y_train.append(training_set_scaled[i, 0])
 X_train, y_train = np.array(X_train), np.array(y_train)
+'''
+    60 timesteps means that at every time T, the RNN is going to look at the 60 stock prices 
+    before time T, that is the stock prices between 60 days before time T and time T, and based on 
+    the trends, it is capturing during these previous timesteps, it will try to predict the next output
+    60 timesteps of the past information from which the RNN is gonna try to learn and understand some correlations
+    based on understanding, it will try to predict the next output, the stock price at time T+1
+    
+    1 timestep is completely stupid because it will lead to overfitting
+    20 timesteps not enough to capture trends
+    the best one after trial and error is 60
+    60 financial days, since there are 20 financial days in a month then 60 timesteps correspond to 3 months
+    
+    so for every day, the RNN will look at the 3 previous months to predict the next day 
+    
+    1 observation = 1 financial day
+    for each observation, x_train will contain the 60 previews stock prices before that observation
+    y_train will contain the stock price the next financial day
+    
+    x_train and y_train are lists, they have to be numpy arrays again so they can be accepted
+    by the RNN
+    
+'''
 
 # Reshaping
 X_train = np.reshape(X_train, (X_train.shape[0], X_train.shape[1], 1))
