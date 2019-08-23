@@ -69,7 +69,22 @@ X_train, y_train = np.array(X_train), np.array(y_train)
 
 # Reshaping
 X_train = np.reshape(X_train, (X_train.shape[0], X_train.shape[1], 1))
-
+'''
+    adding more dimensionality to the data, adding the dimension "Unit", the number or predictors
+    we can use to predict what we want (Google stock price at time T+1)
+    before we could only predict T+1 by the last 60 days, but now we can add more indicators 
+    that could help predict even better results 
+    reshape function allows you to add a new dimension in a NumPy array without changing its data
+    - x_train: the numpy array to reshape
+    - 2ns argument: the new shape wanted
+        - X_train rn is 2D (60 x 1198), we will add another one to make it 3D
+        - (no of observations (rows), no of timesteps (columns), no of indicators we have)
+          indicators: apple gets a lot of pieces from samsung, therfore apple depends on samsung
+          and samsung depends on apply buying their pieces, hence their stock prices will be similar, 
+          samsung is 1 indicator of apple stock prices
+        - x_train.shape[0] gives the number of rows (observations)
+        - x_train.shape[1] gives the number of columns (timesteps)
+'''
 
 
 # Part 2 - Building the RNN
