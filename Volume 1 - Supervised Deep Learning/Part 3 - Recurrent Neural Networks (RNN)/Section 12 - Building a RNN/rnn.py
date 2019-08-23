@@ -25,9 +25,17 @@ training_set = dataset_train.iloc[:, 1:2].values
 '''
 
 # Feature Scaling
-from sklearn.preprocessing import MinMaxScaler
-sc = MinMaxScaler(feature_range = (0, 1))
+from sklearn.preprocessing import MinMaxScaler 
+sc = MinMaxScaler(feature_range = (0, 1)) #create an object sc from the class MinMaxScaler with the default feature range (0,1)
 training_set_scaled = sc.fit_transform(training_set)
+'''
+    recommended/more relevant to use Normalisation than Standardisation for feature scaling in RNNs
+    in RNNs, if there is a Sigmoid activation function in the output layer, its better to use normalisation
+    feature range (0, 1) so that now all the stock prices will be between 0 and 1 
+    apply the fit transform method from the MinMaxScaler class to the sc object
+    fit sc object to the training set, which is inputted as argument 
+    and transform it a.k.a scale it 
+'''
 
 # Creating a data structure with 60 timesteps and 1 output
 X_train = []
