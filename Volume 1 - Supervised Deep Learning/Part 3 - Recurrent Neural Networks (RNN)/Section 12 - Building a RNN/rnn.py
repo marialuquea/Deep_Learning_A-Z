@@ -5,13 +5,24 @@
 # Part 1 - Data Preprocessing
 
 # Importing the libraries
-import numpy as np
-import matplotlib.pyplot as plt
-import pandas as pd
+import numpy as np #allows to make some arrays, which are the only allowed input
+import matplotlib.pyplot as plt #visualise results on nice charts
+import pandas as pd #to be able to import the dataset and manage them easily
 
 # Importing the training set
-dataset_train = pd.read_csv('Google_Stock_Price_Train.csv')
-training_set = dataset_train.iloc[:, 1:2].values
+dataset_train = pd.read_csv('Google_Stock_Price_Train.csv') #importing the data as a DataFrame
+training_set = dataset_train.iloc[:, 1:2].values 
+'''
+    we need to select the right column that we need, which is the Open google stock price
+    and also make it a NumPy array because only NumPy arrays can be the input of NNs in keras
+    iloc method to get the right index of the column we want
+     - : all the rows 
+     - 1:2, ranges in python have their upper bound excluded, therefore the 2 here is excluded,
+       only column 1 (Open) and this makes a NumPy array of 1 column
+     this last line creates a DataFrame but only with the Open column
+     - .values : to make it a numpy array
+    
+'''
 
 # Feature Scaling
 from sklearn.preprocessing import MinMaxScaler
