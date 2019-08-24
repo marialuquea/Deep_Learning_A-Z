@@ -127,7 +127,7 @@ regressor.add(Dropout(0.2))
 '''
 
 # Adding a second LSTM layer and some Dropout regularisation
-regressor.add(LSTM(units = 50, return_sequences = True))
+regressor.add(LSTM(units = 50, return_sequences = True)) # no need to specify the input shape again
 regressor.add(Dropout(0.2))
 
 # Adding a third LSTM layer and some Dropout regularisation
@@ -135,18 +135,38 @@ regressor.add(LSTM(units = 50, return_sequences = True))
 regressor.add(Dropout(0.2))
 
 # Adding a fourth LSTM layer and some Dropout regularisation
-regressor.add(LSTM(units = 50))
+regressor.add(LSTM(units = 50)) 
 regressor.add(Dropout(0.2))
+'''
+    after this layer comes the output layer with its output dimension
+    since it is the last LSTM layer and we don't return any more sequences, we delete
+    the return sequence parameter to make it false
+'''
 
 # Adding the output layer
 regressor.add(Dense(units = 1))
+''' here we don't add an LSTM layer, but a classic fully connected layer, becuase
+    the classic layer is fully connected to the previous LSTM layer (4th one)
+    to make a fully connection we use the Dense class 
+    units: the number of neurons there needs to be in the output layer (can't choose)
+    output has only 1 dimension therefore 1 unit 
+'''
 
 # Compiling the RNN
 regressor.compile(optimizer = 'adam', loss = 'mean_squared_error')
+'''
+    - .compile is a method of the Sequential class
+    - for RNNs, an RMS prop optimizer is recommended, however with this model, after experimentation,
+      the Adam optimizer gave better results, it is always a safe choice because it always performs
+      relevant updates of the weights
+    - mean_squared_error because this is a regression problem 
+'''
 
 # Fitting the RNN to the Training set
 regressor.fit(X_train, y_train, epochs = 100, batch_size = 32)
-
+'''
+    
+'''
 
 
 # Part 3 - Making the predictions and visualising the results
