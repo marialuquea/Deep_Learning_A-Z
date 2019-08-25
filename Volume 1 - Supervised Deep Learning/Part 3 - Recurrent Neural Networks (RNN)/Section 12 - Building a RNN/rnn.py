@@ -170,15 +170,33 @@ regressor.fit(X_train, y_train, epochs = 100, batch_size = 32)
 '''
 
 
+
+
 # Part 3 - Making the predictions and visualising the results
 
 # Getting the real stock price of 2017
 dataset_test = pd.read_csv('Google_Stock_Price_Test.csv')
 real_stock_price = dataset_test.iloc[:, 1:2].values
+'''
+    create a DataFrame by the read_csv function by pandas
+    select the right column and make it a NumPy array 
+    this gives the real stock price variable
+'''
+
 
 # Getting the predicted stock price of 2017
+
+
 dataset_total = pd.concat((dataset_train['Open'], dataset_test['Open']), axis = 0)
+'''never scale test values, keep them exactly as they are, the axis along we make the concatenation (lines or columns)
+   for vertical concatenation use axis = 0 '''
 inputs = dataset_total[len(dataset_total) - len(dataset_test) - 60:].values
+'''stock prices from 1st financial day of 2017 - 60, up to the last stock price of the whole dataset
+   the lower bound of the range of inputs: stock price at Jan 3rd - 60
+   index of jan 3rd: total length - test length (20) 
+   "- 60" to get the lower bound
+   .values to make it a NumPy array
+   the upper bound is the last index of the whole dataset '''
 inputs = inputs.reshape(-1,1)
 inputs = sc.transform(inputs)
 X_test = []
@@ -188,6 +206,8 @@ X_test = np.array(X_test)
 X_test = np.reshape(X_test, (X_test.shape[0], X_test.shape[1], 1))
 predicted_stock_price = regressor.predict(X_test)
 predicted_stock_price = sc.inverse_transform(predicted_stock_price)
+
+
 
 # Visualising the results
 plt.plot(real_stock_price, color = 'red', label = 'Real Google Stock Price')
