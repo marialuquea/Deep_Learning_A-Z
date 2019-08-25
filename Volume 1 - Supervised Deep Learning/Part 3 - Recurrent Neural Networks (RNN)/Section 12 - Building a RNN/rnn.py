@@ -198,7 +198,18 @@ inputs = dataset_total[len(dataset_total) - len(dataset_test) - 60:].values
    .values to make it a NumPy array
    the upper bound is the last index of the whole dataset '''
 inputs = inputs.reshape(-1,1)
+'''since the iloc method from pandas hasn't been used to get these inputs, they're not shaped
+   the right way, not like a NumPy array of all the inputs and lines and one/several columns and it
+   might bring a format problem 
+   solution: reshape inputs with -1, 1
+   might get warning format in console reminding us to use the reshape function '''
 inputs = sc.transform(inputs)
+'''only scale inputs and not actual test values 
+   not fit_transform because sc object was already fitted to the training set
+   transform because the scaling that needs to be applied to the input must be the same
+   scaling that was applied to the training set and therefore the sc object shouldn't be fitted again.
+   The transform method must be directly applied to get the previous scaling on which the 
+   regressor was trained '''
 X_test = []
 for i in range(60, 80):
     X_test.append(inputs[i-60:i, 0])
