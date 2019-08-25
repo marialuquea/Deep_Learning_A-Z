@@ -214,10 +214,13 @@ X_test = []
 for i in range(60, 80):
     X_test.append(inputs[i-60:i, 0])
 X_test = np.array(X_test)
-X_test = np.reshape(X_test, (X_test.shape[0], X_test.shape[1], 1))
-predicted_stock_price = regressor.predict(X_test)
+'''taken from lines 41-46 '''
+X_test = np.reshape(X_test, (X_test.shape[0], X_test.shape[1], 1)) # taken from line 71
+predicted_stock_price = regressor.predict(X_test) # input data as a Numpy array
 predicted_stock_price = sc.inverse_transform(predicted_stock_price)
-
+'''inverse the scaling of the predictions becuase the regressor was trained to predict 
+   the scaled values of the stock price 
+   this is to get the origianl scale of these scaled predicted values'''
 
 
 # Visualising the results
