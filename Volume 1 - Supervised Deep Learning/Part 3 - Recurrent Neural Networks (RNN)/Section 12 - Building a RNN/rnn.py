@@ -231,3 +231,22 @@ plt.xlabel('Time')
 plt.ylabel('Google Stock Price')
 plt.legend()
 plt.show()
+
+
+# Model conclusions
+'''
+    The graph shows the predicted and real values of Google stock prices for the whole
+    month of January 2017.
+    The red line shows the real Google Stock Price taken from verified financial sources
+    from the web.
+    The blue line shows the predictions coming from the RNN model implemented. 
+    In some parts of the predictions, the predictions lag behind the actual values, for example 
+    at time 16 approx. there was a spike that the predictions did not follow.
+    Model lags behind because it cannot react to fast, non-linear changes.
+    The spike, the stock price irregularity is a fast, non-linear change to which the model cannot 
+    react properly. 
+    But according to the Brownian Model mathematical concept in financial engineering,
+    the future variations of the stock price are independent from the past and therefore the
+    future variation seen there, around the spike, is a variation that is totally independent
+    from the previous stock prices.
+'''
