@@ -249,4 +249,10 @@ plt.show()
     the future variations of the stock price are independent from the past and therefore the
     future variation seen there, around the spike, is a variation that is totally independent
     from the previous stock prices.
+    Model reacts okay to smooth changes, the model didn't react to the spike at time ~4 but 
+    except for it, the RNN model reacts pretty well to these smooth changes.
+    Conclusions: in the parts where the real values contain some spikes, the predictions
+    lag behind the actual values because the model cannot react to fast, no-linear changes.
+    On the other hand, for the parts where the real values contain smooth changes, the model
+    reacts pretty well and manages to follow the upward and downward trends.
 '''
