@@ -75,25 +75,26 @@ for i, x in enumerate(X): # 2 looping variables (i and x)
     plot(w[0] + 0.5, # x coordinate of winning node, +0.5 to put it in the centre of the square
          w[1] + 0.5, # y coordinate of winning node
          markers[y[i]], # the y variable contains the column with the classes
-         ''' y - index of customer
-            y[i] - value of dependent variable (0 or 1)
-            if class in y == 0: 
-                y[i] == 0
-                markers[y[i]] = 0 == circle
-            if class in y == 1:
-                y[i] == 1
-                markers[y[i]] = 1 = square
-         '''
-         markeredgecolor = colors[y[i]],
-         markerfacecolor = 'None',
+         #  y - index of customer
+         #  y[i] - value of dependent variable (0 or 1)
+         #  if class in y == 0: 
+         #      y[i] == 0
+         #      markers[y[i]] = 0 == circle
+         #  if class in y == 1:
+         #      y[i] == 1
+         #      markers[y[i]] = 1 = square
+         markeredgecolor = colors[y[i]], # marker edge colour
+         markerfacecolor = 'None', # marker face (inside) colour
          markersize = 10,
-         markeredgewidth = 2)
+         markeredgewidth = 2,) # marker edge width
 plt.title('Red circles -ve class, Green squares +ve class')
 #plt.xlabel('Time')
 #plt.ylabel('Google Stock Price')
 show()
 
+
 # Finding the frauds
-mappings = som.win_map(X)
-frauds = np.concatenate((mappings[(8,1)], mappings[(6,8)]), axis = 0)
-frauds = sc.inverse_transform(frauds)
+mappings = som.win_map(X) # the data on which the SOM was trained
+frauds = np.concatenate((mappings[(2,8)], mappings[(8,6)]), axis = 0) # get the 2 white spots and add lists to get list of all possible frauds
+frauds = sc.inverse_transform(frauds) # inverse scaling, since values were scaled before 
+# the first column in the frauds list is the customer ID of the possible fraud customers
