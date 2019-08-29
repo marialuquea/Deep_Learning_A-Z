@@ -32,13 +32,19 @@ dataset = pd.read_csv('Credit_Card_Applications.csv')
 X = dataset.iloc[:, :-1].values #all rows, all columns except the last one - the class
 y = dataset.iloc[:, -1].values #all rows, only the last column
 '''Since the last attribute of the dataset is the class (if the customer's application was succesful-1 or
-   not-0), we separate that column from the dataset
+   not-0), we separate that column from the dataset.
+   When we train the SOM, we only use X becuase this is unsupervised learning, a.k.a no dependent
+   variable is considered.
 '''
 
 # Feature Scaling
 from sklearn.preprocessing import MinMaxScaler
-sc = MinMaxScaler(feature_range = (0, 1))
+sc = MinMaxScaler(feature_range = (0, 1)) # normalisation- all features between 0 and 1
 X = sc.fit_transform(X)
+'''in most cases, feature scaling is compulsory for deep learning becuase they're high computations
+   to make, since we start with a high dimensional dataset with lots of non-linear relationships and it 
+   will be much easier for the model  to be trained if features are scaled.
+'''
 
 # Training the SOM
 from minisom import MiniSom
