@@ -47,9 +47,12 @@ X = sc.fit_transform(X)
 '''
 
 # Training the SOM
-from minisom import MiniSom
-som = MiniSom(x = 10, y = 10, input_len = 15, sigma = 1.0, learning_rate = 0.5)
-som.random_weights_init(X)
+from minisom import MiniSom # the other python file containing the class
+som = MiniSom(x = 10, y = 10, input_len = 15, sigma = 1.0, learning_rate = 0.5) 
+'''10x10 grid, 15 features in the dataset, sigma-radius of neighbourhood, 0.5-by how much
+   the weights are updated during each iteration, the higher, the faster there will be convergence
+   the lower, the slower it will be built '''
+som.random_weights_init(X) # initialise weights
 som.train_random(data = X, num_iteration = 100)
 
 # Visualizing the results
