@@ -57,16 +57,33 @@ som.train_random(data = X, num_iteration = 100)
 
 # Visualizing the results
 from pylab import bone, pcolor, colorbar, plot, show
-bone()
-pcolor(som.distance_map().T)
-colorbar()
-markers = ['o', 's']
-colors = ['r', 'g']
-for i, x in enumerate(X):
-    w = som.winner(x)
-    plot(w[0] + 0.5,
-         w[1] + 0.5,
-         markers[y[i]],
+bone() # the window that will contain the map
+pcolor(som.distance_map().T) # all the values of the MID for all the winning nodes of the SOM 
+# the T takes the transpose of this MID matrix 
+colorbar() # leyend of colours
+'''The white squares represent where the frauds are. Frauds are identified by outlying winning nodes,
+   the ones that are far from the general rules.
+   We want to find the customers who are a fraud but got approved (class 1)'''
+markers = ['o', 's'] # o - circle, s - square
+colors = ['r', 'g'] # red, green
+for i, x in enumerate(X): # 2 looping variables (i and x)
+    '''i - the different values of all the indexes of dataset 0 - 689 //rows
+       x - the different vectors of customers (first customer, then second customer, etc...) //columns
+       enumerate(X) - X is the dataset 
+    '''
+    w = som.winner(x) # winning node of customer x
+    plot(w[0] + 0.5, # x coordinate of winning node, +0.5 to put it in the centre of the square
+         w[1] + 0.5, # y coordinate of winning node
+         markers[y[i]], # the y variable contains the column with the classes
+         ''' y - index of customer
+            y[i] - value of dependent variable (0 or 1)
+            if class in y == 0: 
+                y[i] == 0
+                markers[y[i]] = 0 == circle
+            if class in y == 1:
+                y[i] == 1
+                markers[y[i]] = 1 = square
+         '''
          markeredgecolor = colors[y[i]],
          markerfacecolor = 'None',
          markersize = 10,
