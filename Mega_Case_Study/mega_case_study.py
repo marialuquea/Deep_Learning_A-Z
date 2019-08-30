@@ -48,7 +48,7 @@ show()
 
 # Finding the frauds
 mappings = som.win_map(X)
-frauds = np.concatenate((mappings[(5,3)], mappings[(8,3)]), axis = 0)
+frauds = np.concatenate((mappings[(7,7)], mappings[(8,8)]), axis = 0)
 frauds = sc.inverse_transform(frauds)
 
 
@@ -56,13 +56,15 @@ frauds = sc.inverse_transform(frauds)
 # Part 2 - Going from Unsupervised to Supervised Deep Learning
 
 # Creating the matrix of features
-customers = dataset.iloc[:, 1:].values
+customers = dataset.iloc[:, 1:].values # dataset without the first column (customer ID), .values for Numpy array
 
 # Creating the dependent variable
-is_fraud = np.zeros(len(dataset))
-for i in range(len(dataset)):
-    if dataset.iloc[i,0] in frauds:
-        is_fraud[i] = 1
+is_fraud = np.zeros(len(dataset)) # creating a vector of zeros of any no of elements (690 in this case)
+for i in range(len(dataset)): # loop through every customer ID in dataset
+    if dataset.iloc[i,0] in frauds: # if customemer ID in frauds list
+        is_fraud[i] = 1 #change the zero for that index in the is_fraud vector of zeros to a 1
+        print ('i:', i, ' customerID:', dataset.iloc[i,0])
+        print ('-----------------------------------------')
 
 # Feature Scaling
 from sklearn.preprocessing import StandardScaler
@@ -93,4 +95,5 @@ classifier.fit(customers, is_fraud, batch_size = 1, epochs = 2)
 # Predicting the probabilities of frauds
 y_pred = classifier.predict(customers)
 y_pred = np.concatenate((dataset.iloc[:, 0:1].values, y_pred), axis = 1)
-y_pred = y_pred[y_pred[:, 1].argsort()]
+y_pred = y_pred[y_pred[:, 1].argsort()] #sort customers by their predicted probability of cheating
+# use format in variable explorer %.3f for 3 decimal places
