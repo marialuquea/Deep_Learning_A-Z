@@ -29,14 +29,24 @@ nb_movies = int(max(max(training_set[:,1]), max(test_set[:,1])))
 
 # Converting the data into an array with users in lines and movies in columns
 def convert(data):
-    new_data = []
-    for id_users in range(1, nb_users + 1):
-        id_movies = data[:,1][data[:,0] == id_users]
+    new_data = [] # a list of lists, each list for each user with its ratings
+    for id_users in range(1, nb_users + 1): # the last one in the range is excluded, hence the +1
+        id_movies = data[:,1][data[:,0] == id_users] # explained below
         id_ratings = data[:,2][data[:,0] == id_users]
-        ratings = np.zeros(nb_movies)
-        ratings[id_movies - 1] = id_ratings
-        new_data.append(list(ratings))
+        ratings = np.zeros(nb_movies) # the movies that haven't been seen don't have an int, create list of 0s and change them if the movie has been rated
+        ratings[id_movies - 1] = id_ratings 
+        new_data.append(list(ratings)) # torch expects a list of lists
     return new_data
+'''
+    id_movies = data[:,1][data[:,0] == id_users]
+        data[:,1] to get all the rows from the column index 1
+        column index 1 contains the userID and the column 2 one of that user's rating
+        we need to make a list of all the movies that the user has seen therefore
+        
+        [data[:,0] == id_users] 
+        this line is a new condition
+        the first column of data (index 0, the userID) == id_users 
+'''
 training_set = convert(training_set)
 test_set = convert(test_set)
 
