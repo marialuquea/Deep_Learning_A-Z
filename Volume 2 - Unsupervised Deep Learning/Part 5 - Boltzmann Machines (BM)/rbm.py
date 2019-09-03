@@ -1,14 +1,14 @@
 # Boltzmann Machines
 
 # Importing the libraries
-import numpy as np
-import pandas as pd
+import numpy as np # to work with arrays
+import pandas as pd # to import datasets and create training/test set
 import torch
-import torch.nn as nn
-import torch.nn.parallel
-import torch.optim as optim
-import torch.utils.data
-from torch.autograd import Variable
+import torch.nn as nn # used to implement neural networks
+import torch.nn.parallel # parallel computations
+import torch.optim as optim # for the optimizer
+import torch.utils.data # tools that will be used
+from torch.autograd import Variable # stochastic gradient descent
 
 # Importing the dataset
 movies = pd.read_csv('ml-1m/movies.dat', sep = '::', header = None, engine = 'python', encoding = 'latin-1')
