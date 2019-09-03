@@ -14,10 +14,12 @@ from torch.autograd import Variable # stochastic gradient descent
 movies = pd.read_csv('ml-1m/movies.dat', sep = '::', header = None, engine = 'python', encoding = 'latin-1')
 users = pd.read_csv('ml-1m/users.dat', sep = '::', header = None, engine = 'python', encoding = 'latin-1')
 ratings = pd.read_csv('ml-1m/ratings.dat', sep = '::', header = None, engine = 'python', encoding = 'latin-1')
+'''latin-1 encoding because some of the movie titles contain special characters that cannot be treated properly 
+   with the classic encoding UTF-8'''
 
 # Preparing the training set and the test set
-training_set = pd.read_csv('ml-100k/u1.base', delimiter = '\t')
-training_set = np.array(training_set, dtype = 'int')
+training_set = pd.read_csv('ml-100k/u1.base', delimiter = '\t') # \t = tab
+training_set = np.array(training_set, dtype = 'int') # dataframe to numpy array, data type int 
 test_set = pd.read_csv('ml-100k/u1.test', delimiter = '\t')
 test_set = np.array(test_set, dtype = 'int')
 
@@ -69,7 +71,7 @@ class RBM():
         p_v_given_h = torch.sigmoid(activation)
         return p_v_given_h, torch.bernoulli(p_v_given_h)
     def train(self, v0, vk, ph0, phk):
-        self.W += torch.mm(v0.t(), ph0) - torch.mm(vk.t(), phk)
+        self.W += (torch.mm(v0.t(),ph0) - torch.mm(vk.t(),phk)).t()
         self.b += torch.sum((v0 - vk), 0)
         self.a += torch.sum((ph0 - phk), 0)
 nv = len(training_set[0])
