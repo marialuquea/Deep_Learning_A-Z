@@ -77,10 +77,21 @@ test_set[test_set >= 3] = 1
 
 # Creating the architecture of the Neural Network
 class RBM():
-    def __init__(self, nv, nh):
-        self.W = torch.randn(nh, nv)
-        self.a = torch.randn(1, nh)
-        self.b = torch.randn(1, nv)
+    def __init__(self, nv, nh): # default compulsory function, self is the object that will be created
+        self.W = torch.randn(nh, nv) # initialises a tensor of size nh - nv according to a normal distribution, mean 0, variance 1
+        self.a = torch.randn(1, nh) #bias for the probabilites of the hidden nodes given the visible nodes
+        self.b = torch.randn(1, nv) #bias for the probs of the visible nodes given the hidden nodes
+        '''
+        Weights are going to be initialised in a torched tensor. These weights are all the 
+        parameters of the probabilities of the visible nodes given the hidden nodes.
+        Initilalised in a matrix of size NH and NV. Matrix is a torched tensor because pyTorch.
+        Tensor: matrix of one single type
+        There is some bias for the probaility of the visible node given the hidden node and viceversa.
+        BIASES: create a vector of NH or NV element all initialised to some number that follow 
+        a normal distribution. 
+        1st dimension corresponds to batch, 2nd dimension corresponds to bias of the tensor
+        This is becuase the functions that will be used in PyTorch can't accept a single input vector
+        '''
     def sample_h(self, x):
         wx = torch.mm(x, self.W.t())
         activation = wx + self.a.expand_as(wx)
