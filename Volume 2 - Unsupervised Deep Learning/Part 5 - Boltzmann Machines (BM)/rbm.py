@@ -50,12 +50,12 @@ def convert(data):
 training_set = convert(training_set)
 test_set = convert(test_set)
 
-# Converting the data into Torch tensors
+# Converting the data into Torch tensors (similar to Numpy but used by PyTorch)
 training_set = torch.FloatTensor(training_set)
 test_set = torch.FloatTensor(test_set)
 
 # Converting the ratings into binary ratings 1 (Liked) or 0 (Not Liked)
-training_set[training_set == 0] = -1
+training_set[training_set == 0] = -1 # all the 0 values in the training set will now be a -1
 training_set[training_set == 1] = 0
 training_set[training_set == 2] = 0
 training_set[training_set >= 3] = 1
@@ -63,6 +63,17 @@ test_set[test_set == 0] = -1
 test_set[test_set == 1] = 0
 test_set[test_set == 2] = 0
 test_set[test_set >= 3] = 1
+'''why convert ratings? because we are predicting binary ratings. 
+   inputs must have the binary format the RBM will take the input vector, and inside the input
+   vector it will predict the ratings for the movies that were not orginally rated by the user.
+   Since the predicted ratings are computed originally from the existing ratings of the input
+   vector, the predicted ratings of the outputmust have the same format as the existing ratings 
+   in the input.
+   Otherwise things would be inconsistent for the RBM.
+   Inexistent ratings (0) will now become a -1
+   1/2 -> not liked
+   3/4/5 -> liked
+'''
 
 # Creating the architecture of the Neural Network
 class RBM():
