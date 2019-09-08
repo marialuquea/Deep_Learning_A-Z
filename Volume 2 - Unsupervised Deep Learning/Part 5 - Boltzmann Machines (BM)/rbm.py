@@ -119,10 +119,14 @@ class RBM():
         activation = wy + self.b.expand_as(wy)
         p_v_given_h = torch.sigmoid(activation)
         return p_v_given_h, torch.bernoulli(p_v_given_h)
+        '''same as before'''
     def train(self, v0, vk, ph0, phk):
         self.W += (torch.mm(v0.t(),ph0) - torch.mm(vk.t(),phk)).t()
         self.b += torch.sum((v0 - vk), 0)
         self.a += torch.sum((ph0 - phk), 0)
+        '''
+        
+        '''
 nv = len(training_set[0])
 nh = 100
 batch_size = 100
