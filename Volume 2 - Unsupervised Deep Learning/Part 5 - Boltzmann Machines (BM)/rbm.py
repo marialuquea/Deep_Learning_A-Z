@@ -93,10 +93,27 @@ class RBM():
         This is becuase the functions that will be used in PyTorch can't accept a single input vector
         '''
     def sample_h(self, x):
-        wx = torch.mm(x, self.W.t())
-        activation = wx + self.a.expand_as(wx)
-        p_h_given_v = torch.sigmoid(activation)
-        return p_h_given_v, torch.bernoulli(p_h_given_v)
+        wx = torch.mm(x, self.W.t()) # mm: product of 2 tensors, x and self.w.
+        activation = wx + self.a.expand_as(wx) # activation function, the expands_as function adds a new dimension to the bias being added
+        p_h_given_v = torch.sigmoid(activation) #probability that the hidden node will be activated according to the value of the visible node
+        return p_h_given_v, torch.bernoulli(p_h_given_v) #the ith element of the vector in phgivenv is the probability that the ith hidden node is activated
+        '''
+        Sampling the hidden nodes according to the probabilities ph given v 
+        ph given v is the sigmoid activation function
+        needed because during training it will approximate the log likelihood gradient through Gibbs sampling.
+        once we have the probability we can sample the activations of the hidden nodes
+        If we have 100 hidden nodes, this function samples the activations of theses h, for each 
+        of the 100 hidden nodes, it will activate them according to a certain probability computed 
+        in this same function. For each hidden node the prob will be ph given v, P(hn == 1) given v, 
+        this probability is equal to the activation function
+        x - visible neurons v in the probabilities ph given v
+        wx: product of w (vector of weights) times x (vector of visible neurons) 
+        activation function = wx + bias of the nodes(a)
+        For every deep learning model, what's inside the activation function is a linear
+        function of the neurons, where the coefficients are the weights
+        
+        us probability to sample the activation of the hidden nodes
+        '''
     def sample_v(self, y):
         wy = torch.mm(y, self.W)
         activation = wy + self.b.expand_as(wy)
