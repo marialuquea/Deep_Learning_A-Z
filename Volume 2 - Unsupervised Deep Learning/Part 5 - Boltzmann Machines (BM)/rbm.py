@@ -121,11 +121,27 @@ class RBM():
         return p_v_given_h, torch.bernoulli(p_v_given_h)
         '''same as before'''
     def train(self, v0, vk, ph0, phk):
-        self.W += (torch.mm(v0.t(),ph0) - torch.mm(vk.t(),phk)).t()
-        self.b += torch.sum((v0 - vk), 0)
-        self.a += torch.sum((ph0 - phk), 0)
+        self.W += (torch.mm(v0.t(),ph0) - torch.mm(vk.t(),phk)).t() # adding the product of the probs that the hidden nodes equal 1 given the input vector v0
+        # the probability that the hidden nodes equal onve given v0 is ph0
+        # minus the torch product of the visible nodes obtained after k sampling 
+        # this is the first update in the KCD algorithm that is in the contrastive divergence technique
+        self.b += torch.sum((v0 - vk), 0) # update of weight B (B: bias of the probabilities pv_givenH)
+        # the difference between the input vector of observations and the visible nodes after k sampling (v0 -vk), plus 0 to keep the format of a tensor of 2 dimensions
+        self.a += torch.sum((ph0 - phk), 0) # bias of the probabilities ph given v
+        # difference of the probabilities that the hidden nodes == 1 given the values of v0, the input vector of observations 
+        # and the probabilities that the hidden nodes == 1 given the values of vk, the values of the visible nodes after k sampling
         '''
+        v0: input vector containing ratings of all the movies by one user
+        vk: visible nodes obtained after K sampling (after k round trips from the visible nodes
+            to the hidden nodes first and then way back from the hidden nodes to the visible nodes)
+            so visible nodes obtained after k iterations and k contrastive divergence
+        ph0: vector of probabilities (at first iteration it equals 1 given the values of v0)
+        phk: probabilities of the hidden nodes after k sampling given the values of the visible nodes vk
         
+        update tensor of weights, then bias B and then bias A
+        
+        torch.mm to get the product of 2 tensors 
+        .t() transpose function to make things mathematically correct 
         '''
 nv = len(training_set[0])
 nh = 100
