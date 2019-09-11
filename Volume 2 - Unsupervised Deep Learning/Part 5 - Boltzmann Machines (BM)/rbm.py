@@ -76,12 +76,12 @@ test_set[test_set >= 3] = 1
 '''
 
 # Creating the architecture of the Neural Network
-class RBM():
-   '''
+'''
       many RBM models can be created and tested with different configurations (several numbers
       of hidden nodes because that's basically the main parameter)
       another parameter can be added to the RBM, like for example a learning rate to improve and tune the model
-   '''
+    '''
+class RBM():
     def __init__(self, nv, nh): # default compulsory function, self is the object that will be created
         self.W = torch.randn(nh, nv) # initialises a tensor of size nh - nv according to a normal distribution, mean 0, variance 1
         self.a = torch.randn(1, nh) #bias for the probabilites of the hidden nodes given the visible nodes
@@ -155,19 +155,37 @@ batch_size = 100 # the algorithm is trained with the weights updated after sever
 rbm = RBM(nv, nh) # new object of the class RBM with number of visible and hidden nodes
 
 # Training the RBM
-nb_epoch = 10
+nb_epoch = 10 # because there are few observations and we only have binary value 0/1 so the convergence will be reached pretty fast
+    '''make a for loop that will go through the 10 epochs and in each epoch, all the observations
+       will go into the network and weights will be updated after the observations of each batch 
+       passed through the network.
+       In the end we will get the final visible node with the new ratings for the movies that 
+       were not originally rated. '''
 for epoch in range(1, nb_epoch + 1):
-    train_loss = 0
-    s = 0.
-    for id_user in range(0, nb_users - batch_size, batch_size):
-        vk = training_set[id_user:id_user+batch_size]
-        v0 = training_set[id_user:id_user+batch_size]
-        ph0,_ = rbm.sample_h(v0)
+    train_loss = 0 # to measure the error
+    s = 0. # the . to make it type float, counter that will increment after each epoch
+    for id_user in range(0, nb_users - batch_size, batch_size): 
+        ''' not taking user 1 by 1 but batches of users and since batch size = 100, the first batch is going to contain all users from index 0 to index 99, 2n batch from 100 to 199, etc...
+            therefore last batch of users is 943 - 100 (nb_users - batch_size)
+            in steps of 100 (batch_size)'''
+        vk = training_set[id_user:id_user+batch_size] # users from id_user up to the next 100 users (a batch), this will then go into the Gibbs chain
+        v0 = training_set[id_user:id_user+batch_size] # the batch of original ratings untouched, used to measure error
+        '''input: ratings of all the movies by the specific user being dealt with in the loop
+           target: at the beginning, the same as the input, then the input will go into the Gibbs
+           chain and will be updated to get new ratings in each visible node so the input will change
+           but the target will keep its same initial value'''
+        ph0,_ = rbm.sample_h(v0) # initial probabilities, ,_ to only get the first element of the sample_h function
         for k in range(10):
-            _,hk = rbm.sample_h(vk)
-            _,vk = rbm.sample_v(hk)
-            vk[v0<0] = v0[v0<0]
-        phk,_ = rbm.sample_h(vk)
+           '''Gibbs sampling consists of making a Gibbs chain. There are several round trips
+           from the visible nodes to the hidden nodes, and then from the hidden nodes to the 
+           visible nodes.
+           In each roundtrip the visible nodes are dated. Step after step it gets closer to the
+           good predicted ratings
+           '''
+            _,hk = rbm.sample_h(vk) # _, to get the second element returned by the sample_h method. Since this is sampling of the first hidden nodes given values of first visible nodes (original ratings), first input for sample_h function in this first step of Gibbs sampling is visual, but visual (v) is the target (not to change)
+            _,vk = rbm.sample_v(hk) # calling sample_v on the 1st sample of the hidden nodes (hk)
+            vk[v0<0] = v0[v0<0] # the model shouldn't leatn where there is no rating, so to not include these rows --> freeze visible nodes containing the -1 rating
+        phk,_ = rbm.sample_h(vk) 
         rbm.train(v0, vk, ph0, phk)
         train_loss += torch.mean(torch.abs(v0[v0>=0] - vk[v0>=0]))
         s += 1.
