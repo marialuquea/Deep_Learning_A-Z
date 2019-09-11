@@ -77,6 +77,11 @@ test_set[test_set >= 3] = 1
 
 # Creating the architecture of the Neural Network
 class RBM():
+   '''
+      many RBM models can be created and tested with different configurations (several numbers
+      of hidden nodes because that's basically the main parameter)
+      another parameter can be added to the RBM, like for example a learning rate to improve and tune the model
+   '''
     def __init__(self, nv, nh): # default compulsory function, self is the object that will be created
         self.W = torch.randn(nh, nv) # initialises a tensor of size nh - nv according to a normal distribution, mean 0, variance 1
         self.a = torch.randn(1, nh) #bias for the probabilites of the hidden nodes given the visible nodes
