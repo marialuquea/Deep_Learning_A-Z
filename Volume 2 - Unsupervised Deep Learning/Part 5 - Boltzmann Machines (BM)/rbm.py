@@ -148,10 +148,11 @@ class RBM():
         torch.mm to get the product of 2 tensors 
         .t() transpose function to make things mathematically correct 
         '''
-nv = len(training_set[0])
-nh = 100
-batch_size = 100
-rbm = RBM(nv, nh)
+        
+nv = len(training_set[0]) # number os visible nodes = number of features in the data, it gets the lenfth of the first line of the dataset
+nh = 100 # number of hidden nodes which corresponds to the no of features that we want to detect
+batch_size = 100 # the algorithm is trained with the weights updated after several observations that will all go in a batch. There are 943 so batches of 100 will make the training go quick and this is good for the start
+rbm = RBM(nv, nh) # new object of the class RBM with number of visible and hidden nodes
 
 # Training the RBM
 nb_epoch = 10
