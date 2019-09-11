@@ -188,12 +188,12 @@ for epoch in range(1, nb_epoch + 1):
         phk,_ = rbm.sample_h(vk) 
         rbm.train(v0, vk, ph0, phk)
         train_loss += torch.mean(torch.abs(v0[v0>=0] - vk[v0>=0]))
-        s += 1.
+        s += 1. # the time counter 
     print('epoch: '+str(epoch)+' loss: '+str(train_loss/s))
 
 # Testing the RBM
 test_loss = 0
-s = 0.
+s = 0. 
 for id_user in range(nb_users):
     v = training_set[id_user:id_user+1]
     vt = test_set[id_user:id_user+1]
