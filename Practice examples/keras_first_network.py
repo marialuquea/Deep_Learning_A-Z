@@ -40,3 +40,9 @@ predictions = model.predict_classes(X) # for binary predictions
 # round predictions 
 rounded = [round(x[0]) for x in predictions]
 
+
+
+# summarize predictions for the first 5 cases
+for i in range(5):
+	print('%s => %d (expected %d)' % (X[i].tolist(), predictions[i], y[i]))
+
