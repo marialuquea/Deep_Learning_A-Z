@@ -31,3 +31,12 @@ model.fit(X, y, epochs=150, batch_size=10)
 # evaluate the keras model
 _, accuracy = model.evaluate(X, y)
 print('Accuracy: %.2f' % (accuracy*100))
+
+
+# make probability predictions with the model
+predictions = model.predict(X) # for the actual predictions
+# make class predictions with the model
+predictions = model.predict_classes(X) # for binary predictions
+# round predictions 
+rounded = [round(x[0]) for x in predictions]
+
